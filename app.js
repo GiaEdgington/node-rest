@@ -20,7 +20,7 @@ app.use('/feed', feedRoutes);
 
 mongoose
 .connect(
-    'mongodb+srv://gia-edgington:password_db@clusternode-szpnr.mongodb.net/network?retryWrites=true'
+    'mongodb+srv://gia-edgington:password_db@clusternode-szpnr.mongodb.net/messages?retryWrites=true'
 )
 .then(result => {
     app.listen(8080);

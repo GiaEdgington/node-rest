@@ -22,6 +22,13 @@ app.use((req, res, next) => {
 
 app.use('/feed', feedRoutes);
 
+app.use((error, req, res, next) => {
+    console.log(err);
+    const status = erro.statusCode;
+    const message = error.message;
+    res.status(status).json({ message: message })
+})
+
 
 mongoose
 .connect(
@@ -29,4 +36,6 @@ mongoose
 )
 .then(result => {
     app.listen(8080);
-}).catch(err => console.log(err));
+}).catch(err => {
+    console.log(err)
+});

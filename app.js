@@ -22,12 +22,12 @@ app.use((req, res, next) => {
 
 app.use('/feed', feedRoutes);
 
-app.use((error, req, res, next) => {
+app.use((err, req, res, next) => {
     console.log(err);
-    const status = erro.statusCode;
-    const message = error.message;
+    const status = err.statusCode;
+    const message = err.message;
     res.status(status).json({ message: message })
-})
+});
 
 
 mongoose

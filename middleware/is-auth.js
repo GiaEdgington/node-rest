@@ -11,7 +11,6 @@ module.exports = (req, res, next) => {
   
   let decodedToken;
   try {
-    //console.log(token);
     decodedToken = jwt.verify(token, 'deepsecret');
   } catch (err) {
     err.statusCode = 500;

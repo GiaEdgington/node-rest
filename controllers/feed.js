@@ -4,6 +4,7 @@ const { validationResult } = require('express-validator');
 
 
 const Post = require('../models/post');
+const User = require('../models/user');
 
 exports.getPosts = (req, res, next) => {
     //pagination logic
@@ -68,27 +69,35 @@ exports.createPost = (req, res, next) => {
     const imageUrl = req.file.path;
     const title = req.body.title;
     const content = req.body.content;
+    let creator;
     const post = new Post({
         title: title, 
         imageUrl: imageUrl,
         content: content,
-        creator: { name: 'Seuss' }
+        creator: req.userId
     });
     post
     .save()
     .then(result => {
-        console.log(result);
+      return User.findById(req.userId)
+      })
+      .then(user => {
+        creator = user; //var to be passed on response
+        user.posts.push(post);
+        return user.save();
+      })
+      .then(result => {
         res.status(201).json({
-            message: 'Post created successfully',
-            post: result
+          message: 'Post created successfully',
+          post: post,
+          creator: {_id: creator._id, name: creator.name}
         });
+      }).catch(err => {
+        if(!err.statusCode){
+          err.statusCode = 500;
+         }
+         next(err);
     })
-    .catch(err => {
-       if(!err.statusCode){
-        err.statusCode = 500;
-       }
-       next(err);
-    });
 };
 
 exports.updatePost = (req, res, next) => {

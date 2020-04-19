@@ -60,11 +60,13 @@ exports.login = (req, res, next) => {
             throw error;
         }
         //assign user token
-        const token = jwt.sign({
+        const token = jwt.sign(
+            {
             email: loadedUser.email,
             userId: loadedUser._id.toString()
-        }, 'deepscret',
-        {expiresIn: '1h'}
+            }, 
+            'deepsecret',
+            {expiresIn: '1h'}
         );
         res.status(200).json({ token: token, userId: loadedUser._id.toString() })
     })

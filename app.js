@@ -62,7 +62,14 @@ mongoose
     'mongodb+srv://gia-edgington:password_db@clusternode-szpnr.mongodb.net/messages?retryWrites=true'
 )
 .then(result => {
-    app.listen(8080);
-}).catch(err => {
+    const server = app.listen(8080);
+    //set up socket.io connection
+    const io = require('socket.io')(server);
+    io.on('connection', socket => {
+        //for new client connection
+        console.log('Client connected');
+    })
+})
+.catch(err => {
     console.log(err)
 });

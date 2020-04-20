@@ -39,7 +39,7 @@ exports.login = async (req, res, next) => {
     let loadedUser;
 
     try {
-        const user = await User.findOne({email: email})
+        const user = await User.findOne({email: email});
         if(!user){
             const error = new Error('User could not be found');
             error.statusCode = 401;
@@ -62,7 +62,7 @@ exports.login = async (req, res, next) => {
             {expiresIn: '1h'}
         );
         //console.log(token);
-        res.status(200).json({ token: token, userId: loadedUser._id.toString() })
+        res.status(200).json({ token: token, userId: loadedUser._id.toString() });
     } catch(err) {
         if(!err.statusCode){
             err.statusCode = 500;
@@ -73,13 +73,13 @@ exports.login = async (req, res, next) => {
 
 exports.getUserStatus = async (req, res, next) => {
     try {
-        const user = await User.findById(req.userId)
+        const user = await User.findById(req.userId);
         if(!user){
             const error = new Error('User not found.');
             error.statusCode = 404;
             throw error;
         }
-        res.status(200).json({ status: user.status })
+        res.status(200).json({ status: user.status });
     } catch(err) {
         if(!err.statusCode){
             err.statusCode = 500;
